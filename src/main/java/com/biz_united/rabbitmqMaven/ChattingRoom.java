@@ -31,10 +31,9 @@ public class ChattingRoom extends javax.swing.JFrame implements ActionListener {
 	private JButton sendText;
 	private int count = 1;
 	private JPanel messageContainer = null;
-
-	//
 	private JScrollPane messageWindow;
-	
+
+	// 初始化客户端窗口
 	public ChattingRoom() {
 		super();
 		this.setLayout(null);
@@ -49,18 +48,18 @@ public class ChattingRoom extends javax.swing.JFrame implements ActionListener {
 		this.setTitle("Login");
 		this.setVisible(true);
 		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we){
+			public void windowClosing(WindowEvent we) {
 				try {
-					//chattingRoomSetup.getChannel().queueDelete(chattingRoomSetup.getUserName()+"MessageQueue");
-					chattingRoomSetup.sendMessage(chattingRoomSetup.getChannel(), chattingRoomSetup.getUserName()+" has quit the chattingroom");
+					chattingRoomSetup.sendMessage(chattingRoomSetup.getChannel(),
+							chattingRoomSetup.getUserName() + " has quit the chattingroom");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
 	}
 
+	// 设置控件
 	private JButton getLoginButton() {
 		if (entryChattingRoom == null) {
 			entryChattingRoom = new JButton();
@@ -123,14 +122,15 @@ public class ChattingRoom extends javax.swing.JFrame implements ActionListener {
 		return messageContainer;
 	}
 
+	// 设置登录事件
 	private ActionListener loginAction = new ActionListener() {
 
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			if (!inputUserName.getText().equals("")) {
 				setTitle(inputUserName.getText());
 				chattingRoomSetup = new ChattingRoomSetup(inputUserName.getText());
 				entryChattingRoom();
+				// 接收信息
 				Timer timer = new Timer();
 				timer.schedule(new TimerTask() {
 					public void run() {
@@ -141,7 +141,6 @@ public class ChattingRoom extends javax.swing.JFrame implements ActionListener {
 								chattingRoomSetup.setMsg("");
 							}
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -150,17 +149,16 @@ public class ChattingRoom extends javax.swing.JFrame implements ActionListener {
 		}
 	};
 
+	// 设置消息发送事件
 	private ActionListener sendMessage = new ActionListener() {
 
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			if (!inputTextArea.getText().equals("")) {
 				try {
 					chattingRoomSetup.sendMessage(chattingRoomSetup.getChannel(),
 							chattingRoomSetup.getUserName() + " say:" + inputTextArea.getText());
 					inputTextArea.setText(null);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -192,13 +190,11 @@ public class ChattingRoom extends javax.swing.JFrame implements ActionListener {
 		showMessage.setVisible(true);
 		messageContainer.add(showMessage);
 		panel.setViewportView(messageContainer);
-		// panel.add(showMessage,null);
 		panel.repaint();
 		count++;
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
